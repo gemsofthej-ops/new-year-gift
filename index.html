@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Happy New Year ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  background: radial-gradient(circle at top, #0a0a0a, #000);
+  color: white;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hidden { display: none; }
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#countdown {
+  font-size: 2rem;
+}
+
+.cat {
+  font-size: 6rem;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  margin: 10px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.yes { background: #ff69b4; }
+.no { background: #444; color: white; }
+
+#letter {
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(20); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="countdownScreen" class="center">
+  <div id="countdown">counting down...</div>
+</div>
+
+<div id="choiceScreen" class="center hidden">
+  <div class="cat">🐈‍⬛</div>
+  <p>will u accept my new year gift?</p>
+  <button class="yes" onclick="yes()">yes</button>
+  <button class="no" onclick="no()">no</button>
+</div>
+
+<div id="noScreen" class="center hidden">
+  <div class="cat">😿</div>
+  <p>ok… still happy new year 💔</p>
+</div>
+
+<div id="yesScreen" class="center hidden">
+  <div class="cat">🐈‍⬛💐</div>
+  <pre id="letter"></pre>
+</div>
+
+<script>
+/* ---------- COUNTDOWN ---------- */
+const target = new Date(new Date().getFullYear() + 1, 0, 1, 0, 0, 0);
+
+const countdownEl = document.getElementById("countdown");
+const countdownScreen = document.getElementById("countdownScreen");
+
+const interval = setInterval(() => {
+  const now = new Date();
+  const diff = target - now;
+
+  if (diff <= 0) {
+    clearInterval(interval);
+    countdownScreen.classList.add("hidden");
+    fireworks();
+    setTimeout(() => {
+      document.getElementById("choiceScreen").classList.remove("hidden");
+    }, 2000);
+    return;
+  }
+
+  const h = Math.floor(diff / (1000 * 60 * 60));
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  countdownEl.textContent = `${h}h ${m}m ${s}s`;
+}, 1000);
+
+/* ---------- FIREWORKS ---------- */
+function fireworks() {
+  for (let i = 0; i < 80; i++) {
+    const f = document.createElement("div");
+    f.className = "firework";
+    f.style.left = Math.random() * window.innerWidth + "px";
+    f.style.top = Math.random() * window.innerHeight + "px";
+    f.style.background = `hsl(${Math.random() * 360},100%,60%)`;
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 1000);
+  }
+}
+
+/* ---------- YES / NO ---------- */
+function no() {
+  document.getElementById("choiceScreen").classList.add("hidden");
+  document.getElementById("noScreen").classList.remove("hidden");
+}
+
+function yes() {
+  document.getElementById("choiceScreen").classList.add("hidden");
+  document.getElementById("yesScreen").classList.remove("hidden");
+  typeLetter();
+}
+
+/* ---------- TYPING LETTER ---------- */
+const text = `
+i dont know where to begin with this but yes being with you is awesomesauce
+you make everything so much better when you are around
+u are like a budew using sunny day 🌱✨
+
+i remember this one time in the canteen we were having lunch
+i got so hyped seeing you get all of my references
+specifically the riverdale and sitcom ones
+i lowkey felt embarrassed after you left
+(ofcourse not because u got bored but u had a practical right after)
+cuz i thought i spoke too much
+but yes it was then i first thought damn pearls valid
+
+u did make the first move initially as well
+cuz if u hadnt texted first my awkward ass probably
+would never have even initiated a conversation
+but i m so glad that u did
+
+i did piss you off alot this year 😭
+but come on u had fun too right
+except the times i went overboard
+for which i would like to formally apologise 😘
+
+this one time during prelims
+when i had come to the library
+after which we were sitting in the canteen
+i ordered cold coffee and i told u about my sister freya
+and stuff going on with her
+and i loved the way u reciprocated it
+it was really nice of u to react that way and hear me out
+
+you never judged me for my hot takes on life
+or my philosophies
+and most importantly i ve never thought i ve overshared to you
+and for someone like me who yaps alot
+that is a very common feeling
+but never had that with u
+
+all the rants that u heard
+late night calls
+thank you for everything babe
+
+the day u told me that u liked me
+was easily one of the best days of my life
+
+delhi
+poptos
+momos
+smoothie
+micro burger
+aamras
+the list just goes on
+
+having u by my side as my partner
+romantic one ofcourse
+is all i could ve asked for
+
+i m not gonna start with caps on
+because doing that and using the 😂 emoji is still 👎
+
+but this year was s tier because of u
+i want the next one to be with u too
+
+Happy New Year, my love ❤️
+`;
+
+let i = 0;
+function typeLetter() {
+  if (i < text.length) {
+    document.getElementById("letter").textContent += text.charAt(i);
+    i++;
+    setTimeout(typeLetter, 25);
+  }
+}
+</script>
+
+</body>
+</html>
