@@ -1,69 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Happy New Year ❤️</title>
+<meta charset="UTF-8">
+<title>Happy New Year</title>
 
 <style>
 body {
   margin: 0;
-  font-family: 'Courier New', monospace;
-  background: radial-gradient(circle at top, #0a0a0a, #000);
+  font-family: monospace;
+  background: black;
   color: white;
-  overflow: hidden;
   text-align: center;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 
 .center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-#countdown {
-  font-size: 2rem;
-}
-
-.cat {
-  font-size: 6rem;
+  margin-top: 15vh;
 }
 
 button {
-  padding: 12px 24px;
-  font-size: 1rem;
+  padding: 10px 20px;
   margin: 10px;
+  font-size: 16px;
   border-radius: 20px;
   border: none;
   cursor: pointer;
 }
 
-.yes { background: #ff69b4; }
-.no { background: #444; color: white; }
+.yes {
+  background: pink;
+}
+
+.no {
+  background: gray;
+  color: white;
+}
 
 #letter {
-  width: 90%;
-  max-width: 600px;
-  margin: auto;
-  font-size: 1rem;
-  line-height: 1.5;
   white-space: pre-wrap;
-}
-
-.firework {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  animation: explode 1s ease-out forwards;
-}
-
-@keyframes explode {
-  from { transform: scale(1); opacity: 1; }
-  to { transform: scale(20); opacity: 0; }
+  max-width: 700px;
+  margin: 20px auto;
+  text-align: left;
 }
 </style>
 </head>
@@ -71,152 +51,129 @@ button {
 <body>
 
 <div id="countdownScreen" class="center">
-  <div id="countdown">counting down...</div>
+  <h2 id="countdown">counting down...</h2>
 </div>
 
 <div id="choiceScreen" class="center hidden">
-  <div class="cat">🐈‍⬛</div>
+  <div style="font-size:70px;">🐈‍⬛</div>
   <p>will u accept my new year gift?</p>
-  <button class="yes" onclick="yes()">yes</button>
-  <button class="no" onclick="no()">no</button>
+  <button class="yes" onclick="acceptGift()">yes</button>
+  <button class="no" onclick="rejectGift()">no</button>
 </div>
 
 <div id="noScreen" class="center hidden">
-  <div class="cat">😿</div>
+  <div style="font-size:70px;">😿</div>
   <p>ok… still happy new year 💔</p>
 </div>
 
 <div id="yesScreen" class="center hidden">
-  <div class="cat">🐈‍⬛💐</div>
+  <div style="font-size:70px;">🐈‍⬛💐</div>
   <pre id="letter"></pre>
 </div>
 
 <script>
-/* ---------- COUNTDOWN ---------- */
 const target = new Date(new Date().getFullYear() + 1, 0, 1, 0, 0, 0);
 
-const countdownEl = document.getElementById("countdown");
-const countdownScreen = document.getElementById("countdownScreen");
-
-const interval = setInterval(() => {
+setInterval(function () {
   const now = new Date();
   const diff = target - now;
 
   if (diff <= 0) {
-    clearInterval(interval);
-    countdownScreen.classList.add("hidden");
-    fireworks();
-    setTimeout(() => {
-      document.getElementById("choiceScreen").classList.remove("hidden");
-    }, 2000);
+    document.getElementById("countdownScreen").classList.add("hidden");
+    document.getElementById("choiceScreen").classList.remove("hidden");
     return;
   }
 
-  const h = Math.floor(diff / (1000 * 60 * 60));
-  const m = Math.floor((diff / (1000 * 60)) % 60);
-  const s = Math.floor((diff / 1000) % 60);
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
 
-  countdownEl.textContent = `${h}h ${m}m ${s}s`;
+  document.getElementById("countdown").innerText =
+    h + "h " + m + "m " + s + "s";
 }, 1000);
 
-/* ---------- FIREWORKS ---------- */
-function fireworks() {
-  for (let i = 0; i < 80; i++) {
-    const f = document.createElement("div");
-    f.className = "firework";
-    f.style.left = Math.random() * window.innerWidth + "px";
-    f.style.top = Math.random() * window.innerHeight + "px";
-    f.style.background = `hsl(${Math.random() * 360},100%,60%)`;
-    document.body.appendChild(f);
-    setTimeout(() => f.remove(), 1000);
-  }
-}
-
-/* ---------- YES / NO ---------- */
-function no() {
+function rejectGift() {
   document.getElementById("choiceScreen").classList.add("hidden");
   document.getElementById("noScreen").classList.remove("hidden");
 }
 
-function yes() {
+function acceptGift() {
   document.getElementById("choiceScreen").classList.add("hidden");
   document.getElementById("yesScreen").classList.remove("hidden");
   typeLetter();
 }
 
-/* ---------- TYPING LETTER ---------- */
-const text = `
-i dont know where to begin with this but yes being with you is awesomesauce
-you make everything so much better when you are around
-u are like a budew using sunny day 🌱✨
+const text =
+"i dont know where to begin with this but yes being with you is awesomesauce\n" +
+"you make everything so much better when you are around\n" +
+"u are like a budew using sunny day 🌱✨\n\n" +
 
-i remember this one time in the canteen we were having lunch
-i got so hyped seeing you get all of my references
-specifically the riverdale and sitcom ones
-i lowkey felt embarrassed after you left
-(ofcourse not because u got bored but u had a practical right after)
-cuz i thought i spoke too much
-but yes it was then i first thought damn pearls valid
+"i remember this one time in the canteen we were having lunch\n" +
+"i got so hyped seeing you get all of my references\n" +
+"specifically the riverdale and sitcom ones\n" +
+"i lowkey felt embarrassed after you left\n" +
+"(ofcourse not because u got bored but u had a practical right after)\n" +
+"cuz i thought i spoke too much\n" +
+"but yes it was then i first thought damn pearls valid\n\n" +
 
-u did make the first move initially as well
-cuz if u hadnt texted first my awkward ass probably
-would never have even initiated a conversation
-but i m so glad that u did
+"u did make the first move initially as well\n" +
+"cuz if u hadnt texted first my awkward ass probably\n" +
+"would never have even initiated a conversation\n" +
+"but i m so glad that u did\n\n" +
 
-i did piss you off alot this year 😭
-but come on u had fun too right
-except the times i went overboard
-for which i would like to formally apologise 😘
+"i did piss you off alot this year 😭\n" +
+"but come on u had fun too right\n" +
+"except the times i went overboard\n" +
+"for which i would like to formally apologise 😘\n\n" +
 
-this one time during prelims
-when i had come to the library
-after which we were sitting in the canteen
-i ordered cold coffee and i told u about my sister freya
-and stuff going on with her
-and i loved the way u reciprocated it
-it was really nice of u to react that way and hear me out
+"this one time during prelims\n" +
+"when i had come to the library\n" +
+"after which we were sitting in the canteen\n" +
+"i ordered cold coffee and i told u about my sister freya\n" +
+"and stuff going on with her\n" +
+"and i loved the way u reciprocated it\n" +
+"it was really nice of u to react that way and hear me out\n\n" +
 
-you never judged me for my hot takes on life
-or my philosophies
-and most importantly i ve never thought i ve overshared to you
-and for someone like me who yaps alot
-that is a very common feeling
-but never had that with u
+"you never judged me for my hot takes on life\n" +
+"or my philosophies\n" +
+"and most importantly i ve never thought i ve overshared to you\n" +
+"and for someone like me who yaps alot\n" +
+"that is a very common feeling\n" +
+"but never had that with u\n\n" +
 
-all the rants that u heard
-late night calls
-thank you for everything babe
+"all the rants that u heard\n" +
+"late night calls\n" +
+"thank you for everything babe\n\n" +
 
-the day u told me that u liked me
-was easily one of the best days of my life
+"the day u told me that u liked me\n" +
+"was easily one of the best days of my life\n\n" +
 
-delhi
-poptos
-momos
-smoothie
-micro burger
-aamras
-the list just goes on
+"delhi\n" +
+"poptos\n" +
+"momos\n" +
+"smoothie\n" +
+"micro burger\n" +
+"aamras\n" +
+"the list just goes on\n\n" +
 
-having u by my side as my partner
-romantic one ofcourse
-is all i could ve asked for
+"having u by my side as my partner\n" +
+"romantic one ofcourse\n" +
+"is all i could ve asked for\n\n" +
 
-i m not gonna start with caps on
-because doing that and using the 😂 emoji is still 👎
+"i m not gonna start with caps on\n" +
+"because doing that and using the 😂 emoji is still 👎\n\n" +
 
-but this year was s tier because of u
-i want the next one to be with u too
+"but this year was s tier because of u\n" +
+"i want the next one to be with u too\n\n" +
 
-Happy New Year, my love ❤️
-`;
+"Happy New Year, my princess ❤️";
 
 let i = 0;
 function typeLetter() {
   if (i < text.length) {
-    document.getElementById("letter").textContent += text.charAt(i);
+    document.getElementById("letter").innerText += text.charAt(i);
     i++;
-    setTimeout(typeLetter, 25);
+    setTimeout(typeLetter, 30);
   }
 }
 </script>
